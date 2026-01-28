@@ -3,6 +3,7 @@ This series of R scripts are used for end-to-end workflow of wrangling, analyzin
 
 For questions and inquiries, please reach out to bennett.paradis@deq.nc.gov
 
+
 **Oyster Sanctuary**
 
 North Carolina’s Division of Marine Fisheries has been permitting, constructing, and monitoring oyster sanctuaries in Pamlico Sound since 1996. These subtidal oyster reefs are constructed with various materials commonly referred to alternative substrates in the field of oyster restoration. Subtidal oyster reefs provide a pluthera of ecosystem services that improve habitat quality such as the provision of nursery and foraging habitat for other species, as well as enhanced water filtration, reducing turbidity and excess nutrients in the estuary. The oyster sanctuaries of Pamlico Sound are closed to harvest, thereby encouraging the growth of large, healthy oyster populations that act as broodstock and a larval insurance policy. As of 2026, the Oyster Sanctuary Network includes 17 active sites across 789 acres. Over 330,000 tons of aggregate materials have been deployed to create three dimensionally complex reef habitat.  
@@ -13,11 +14,13 @@ For additional information on the oyster sanctuary program, visit the [Oyster Sa
 To explore part of the Sanctuary monitoring data set, visit this [Visualization WebApp](https://tinyurl.com/ncos-data)!
 
 
+
 **Deepwater Oyster Recovery Areas (DORAs)**
 
 In 2025, North Carolina's Marine Fisheries Commission approved the establishment of deepwater oyster recovery areas (DORAs). Situated at the mouths of the Neuse and Pamlico rivers, these areas are closed to commercial dredging in an effort to understand the natural resilience and rate of vertical accretion on natural oyster reefs in the absence of harvest pressure. These areas have documented historical presence of oyster reefs, but have also been subject to frequent low dissolved oxygen events in recent decades. SCUBA monitoring efforts and side scan sonar surveys are being conducted by NCDMF to observe the change of reef footprint and density metrics within the DORAs. The same methodology employed by the Sanctuary Program is being used to study the oyster reefs in the DORAs. By collecting this data over the coming years, informed management decisions about Pamlico Sound's subtidal oyster reefs can be made with the aim of developing a sustainable fishery.  
 
-For more information on recent strategies and developments for the state-wide management of oysters, please visit the [Eastern Oyster Fishery Management Plan](https://www.deq.nc.gov/about/divisions/marine-fisheries/managing-fisheries/fishery-management-plans/eastern-oyster-management-information)
+For more information on recent strategies and developments for the state-wide management of oysters, please visit the [Eastern Oyster Fishery Management Plan](https://www.deq.nc.gov/about/divisions/marine-fisheries/managing-fisheries/fishery-management-plans/eastern-oyster-management-information).
+
 
 
 **Cultch Planting**
