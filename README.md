@@ -16,15 +16,15 @@ OysteR/
 
 North Carolina’s Division of Marine Fisheries has been permitting, constructing, and monitoring oyster sanctuaries in Pamlico Sound since 1996. These subtidal oyster reefs are constructed with various materials commonly referred to alternative substrates in the field of oyster restoration. Subtidal oyster reefs provide a plethora of ecosystem services that improve habitat quality such as the provision of nursery and foraging habitat for other species, as well as enhanced water filtration, reducing turbidity and excess nutrients in the estuary. The oyster sanctuaries of Pamlico Sound are closed to harvest, thereby encouraging the growth of large, healthy oyster populations that act as broodstock and a larval insurance policy. As of 2026, the Oyster Sanctuary Network includes 17 active sites across 789 acres. Over 330,000 tons of aggregate materials have been deployed to create three-dimensionally-complex reef habitat.  
 
+<img width="3300" height="2550" alt="P612_report" src="https://github.com/user-attachments/assets/58c941da-b0dc-4274-9da4-e254a6154bcb" />
+
 Annual monitoring efforts are conducted by SCUBA certified biologists and technicians as teams conduct quantitative surveys on each oyster sanctuary, collecting data on the density and population structure of each site, as well as other species present and relevant abiotic data. These surveys provide insight into the degree of sanctuary persistence and are used to refine site selection and construction methods for future sanctuary sites and habitat enhancement.
 
 For additional information on the oyster sanctuary program, visit the [Oyster Sanctuary StoryMap](tinyurl.com/ncos-storymap)!
 To explore part of the Sanctuary monitoring data set, visit this [Visualization WebApp](https://tinyurl.com/ncos-data)!
 
-<img width="3300" height="2550" alt="P612_report" src="https://github.com/user-attachments/assets/58c941da-b0dc-4274-9da4-e254a6154bcb" />
-![Layout3](https://github.com/user-attachments/assets/d0ba41b5-720d-48ee-befb-91d3f414178f)
-
 ![Cedar Island_2019-2025 hist](https://github.com/user-attachments/assets/a9dea73a-401e-4424-a35b-63de92887ec5)
+
 
 **Deepwater Oyster Recovery Areas (DORAs)**
 
