@@ -3,12 +3,11 @@ This series of R scripts are used for end-to-end workflow of wrangling, analyzin
 
 
 **Repository Structure**
-
-OysteR/
 '''
-├── Oyster Sanctuary Analysis/ # scripts for quantifying sanctuary performance (reproductive output & multimodel inference)
-├── SCUBA-surveys/             # data validation, size-class density calculations, resampling, ArcPy automation, and more!
-├── Tong-surveys/              # data validation, size-class density calculations, resampling, ArcPy automation, and more!
+OysteR/
+├── Oyster Sanctuary Analysis/ # quantifying sanctuary performance 
+├── SCUBA-surveys/             # data QA/QC, size-class densities, ArcPy automation, and more!
+├── Tong-surveys/              # data QA/QC, resampling, visualizations, and more!
 ├── subsampling analysis/      # workflow for determining sufficient sub-sampling size
 ├── visualizations/            # histogram time series & material performance 
 └── wrangling (2007-2014)/     # R script used to pull & prime historical data to compare with modern survey data
