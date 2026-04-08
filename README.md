@@ -3,7 +3,7 @@ This series of R scripts are used for end-to-end workflow of wrangling, analyzin
 
 
 **Repository Structure**
-'''
+```bash
 OysteR/
 ├── Oyster Sanctuary Analysis/ # quantifying sanctuary performance 
 ├── SCUBA-surveys/             # data QA/QC, size-class densities, ArcPy automation, and more!
@@ -11,7 +11,7 @@ OysteR/
 ├── subsampling analysis/      # workflow for determining sufficient sub-sampling size
 ├── visualizations/            # histogram time series & material performance 
 └── wrangling (2007-2014)/     # R script used to pull & prime historical data to compare with modern survey data
-'''
+```
 
 **Oyster Sanctuary**
 
