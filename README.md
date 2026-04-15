@@ -5,7 +5,10 @@ This series of R scripts are used for end-to-end workflow of wrangling, analyzin
 **Repository Structure**
 ```bash
 OysteR/
-├── Oyster Sanctuary Analysis/ # quantifying sanctuary performance 
+├── Oyster Sanctuary Analysis/ # quantifying sanctuary performance
+    ├── MultimodelInference/   # 
+    ├── RandForestEstimates/   #
+    └── Reproductive Output/   #
 ├── SCUBA-surveys/             # data QA/QC, size-class densities, ArcPy automation, and more!
 ├── Tong-surveys/              # data QA/QC, resampling, visualizations, and more!
 ├── subsampling analysis/      # workflow for determining sufficient sub-sampling size
