@@ -6,10 +6,10 @@ This series of R scripts are used for end-to-end workflow of wrangling, analyzin
 ```bash
 OysteR/
 ├── Oyster Sanctuary Analysis/ # projects that quantified sanctuary performance
-|    ├── MultimodelInference/  # inference on variables that affect oyster density across 18-year dataset
-|    ├── RandForestEstimates/  # machine-learning workflow for estimating oyster density on large substrates
-|    └── Reproductive Output/  # estimating the larval output across NC's oyster sanctuary network
-|
+│    ├── MultimodelInference/  # inference on variables that affect oyster density across 18-year dataset
+│    ├── RandForestEstimates/  # machine-learning workflow for estimating oyster density on large substrates
+│    └── Reproductive Output/  # estimating the larval output across NC's oyster sanctuary network
+│
 ├── SCUBA-surveys/             # data QA/QC, size-class densities, ArcPy automation, and more!
 ├── Tong-surveys/              # data QA/QC, resampling, visualizations, and more!
 ├── subsampling analysis/      # workflow for determining sufficient sub-sampling size
