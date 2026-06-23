@@ -33,14 +33,53 @@ library(stringr)
 
 # update R & RStudio without IT help!
 # library(installr)
-# updateR()
+# updateR()s
 
-#set working directory to import csv data
-setwd("S:/14. DORAs/FMP Monitoring Protocols/P628 Tong Surveys")
-df <- read.csv("P628_test_data.csv")
+#set evaluation and year for P628 workflow 
+#!THESE ARE THE ONLY THINGS TO CHANGE EACH YEAR!
+#evaluation <- 'cultch'
+evaluation <- 'trigger'
+trigger_timing <- 'preseason' # 'midseason'
+survey_year <- 2025
+
+
+#Run script to resample the data
+
+#if/else controls directories for data upload and outputs based on evaluation & year specified
+if (evaluation == 'cultch') {
+  
+  #cultch set up
+  #set folder directories with the year for upload and output
+  data_dir <- paste0("S:/7. Cultch Planting/6. Monitoring and Data/p628 monitoring/4. Data/", survey_year)
+  analysis_dir <- paste0("S:/7. Cultch Planting/6. Monitoring and Data/p628 monitoring/5. Analysis/", survey_year)
+  
+  df_name <- paste0("P628_cultch", survey_year,"data.csv")
+  
+} else {
+  
+  #trigger set up
+  #set folder directories with the year for upload and output
+  data_dir <- paste0("S:/16. Trigger Sampling/Data/", survey_year,"/",trigger_timing)
+  analysis_dir <- paste0("S:/16. Trigger Sampling/Data/", survey_year,"/",trigger_timing,"/Analysis")
+  
+  df_name <- paste0("Trigger Sampling ", survey_year, " ", trigger_timing,".csv")
+  
+}
+
+
+
+#upload data
+setwd(data_dir)
+df <- read.csv(df_name)
 
 #clean spaces/symbols from column headers
 names(df) <- make.names(names(df))
+
+
+#ensure that integer values are numerics
+df$Oyster <- as.numeric(df$Oyster)
+df$LVL <- as.numeric(df$LVL)
+df$Total.Oyster.Count <- as.numeric(df$Total.Oyster.Count)
 
 #get list of unique sites, validate number of sites matches sampling effort
 SID_list <- unique(df$SID)
@@ -50,6 +89,7 @@ SIDs <- as.data.frame(SID_list)
 #check sample site data consistency 
 #list of variables that should be consistent among rows with the same SID
 SID_vars <- c("Collection.Method", "Sample.Method", "Latitude", "Longitude", "Total.Oyster.Count", "Sample.Depth", "B.Do", "B.Sal", "B.Temp")
+
 
 #check for site-specific variables and consistency by grouped locations
 sid_consistency <- df %>%
@@ -108,3 +148,6 @@ master_validation <- bind_rows(
   arrange(SID)
 
 master_validation
+
+
+
