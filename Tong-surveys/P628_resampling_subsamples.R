@@ -36,9 +36,45 @@ library(stringr)
 # library(installr)
 # updateR()
 
-#set working directory to import csv data
-setwd("S:/14. DORAs/FMP Monitoring Protocols/P628 Tong Surveys")
-df <- read.csv("P628_test_data.csv")
+
+#set evaluation and year for P628 workflow 
+#!THESE ARE THE ONLY THINGS TO CHANGE EACH YEAR!
+#evaluation <- 'cultch'
+evaluation <- 'trigger'
+trigger_timing <- 'preseason' #'preseason' or 'midseason'
+survey_year <- 2025
+
+
+#Run script to resample the data
+
+#if/else controls directories for data upload and outputs based on evaluation & year specified
+if (evaluation == 'cultch') {
+  
+  #cultch set up
+  #set folder directories with the year for upload and output
+  data_dir <- paste0("S:/7. Cultch Planting/6. Monitoring and Data/p628 monitoring/4. Data/", survey_year)
+  analysis_dir <- paste0("S:/7. Cultch Planting/6. Monitoring and Data/p628 monitoring/5. Analysis/", survey_year)
+  
+  df_name <- paste0("P628_cultch", survey_year,"data.csv")
+  
+} else {
+  
+  #trigger set up
+  #set folder directories with the year for upload and output
+  data_dir <- paste0("S:/16. Trigger Sampling/Data/", survey_year,"/",trigger_timing)
+  analysis_dir <- paste0("S:/16. Trigger Sampling/Data/", survey_year,"/",trigger_timing,"/Analysis")
+  
+  df_name <- paste0("Trigger Sampling ", survey_year, " ", trigger_timing,".csv")
+  
+}
+  
+
+#upload data
+setwd(data_dir)
+df <- read.csv(df_name)
+
+#set wd for output 
+setwd(analysis_dir)
 
 #clean spaces/symbols from column headers
 names(df) <- make.names(names(df))
@@ -143,6 +179,13 @@ true_n <- df %>%
   summarise(total = sum(site_total)) %>%
   pull(total)
 
+if (evaluation == 'cultch'){
+  output <- paste0("P628_", evaluation, "_", survey_year, "data_R.csv")
+  } else {
+    output <- paste0("P628_", evaluation, "_", trigger_timing, survey_year, "data_R.csv")
+}
+
+
 final_n <- final_df %>%
   filter(Collection.Method == "Extraction",
          !is.na(Total.Oyster.Count)) %>%  # match the same sites
@@ -157,7 +200,7 @@ if (true_n != final_n) {
   )
 } else {
   message("Final dataset matches extraction totals for sites with counts")
-  write.csv(final_df, "test_output.csv")
+  write.csv(final_df, output)
 }
 
 site_compare <- df %>%
