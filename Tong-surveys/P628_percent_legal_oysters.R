@@ -23,15 +23,44 @@
 ################################################################################
 
 # update R & RStudio without IT help!
-# library(installr)
-# updateR()
+ library(installr)
+ updateR()
 
 library(dplyr)
 library(tidyr)
 
-#set working directory & upload csv
-setwd("S:/14. DORAs/FMP Monitoring Protocols/P628 Tong Surveys")
-df <- read.csv("P628_test_data.csv")
+#!THESE ARE THE ONLY THINGS TO CHANGE EACH YEAR!
+#evaluation <- 'cultch'
+evaluation <- 'trigger'
+trigger_timing <- 'midseason' #or midseason
+survey_year <- 2025
+
+
+
+#if/else controls directories for data upload and outputs based on evaluation & year specified
+if (evaluation == 'cultch') {
+  
+  #cultch set up
+  #set folder directories with the year for upload and output
+  analysis_dir <- paste0("S:/7. Cultch Planting/6. Monitoring and Data/p628 monitoring/5. Analysis/", survey_year)
+  
+  df_name <- paste0("P628_cultch_", survey_year,"data_R.csv")
+  
+} else {
+  
+  #trigger set up
+  #set folder directories with the year for upload and output
+  analysis_dir <- paste0("S:/16. Trigger Sampling/Data/", survey_year,"/",trigger_timing,"/Analysis")
+  
+  df_name <- paste0("P628_trigger_", trigger_timing, survey_year, "data_R.csv")
+  
+}
+
+
+#upload data
+setwd(analysis_dir)
+df <- read.csv(df_name)
+
 
 area_inf <- df%>%
   select(Management.Area, Limit.Area, SID, Total.Oyster.Count)%>%
@@ -50,6 +79,6 @@ legal_ratios <- df %>%
 
 legal_ratios <- left_join(legal_ratios, area_inf, by = 'SID')
 
-write.csv(legal_ratios, "test_legal_ratios.csv")
+write.csv(legal_ratios, "test_legal_ratiostest.csv")
 
 
