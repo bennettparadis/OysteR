@@ -43,8 +43,6 @@ trigger_timing <- 'preseason' # 'midseason'
 survey_year <- 2025
 
 
-#Run script to resample the data
-
 #if/else controls directories for data upload and outputs based on evaluation & year specified
 if (evaluation == 'cultch') {
   
