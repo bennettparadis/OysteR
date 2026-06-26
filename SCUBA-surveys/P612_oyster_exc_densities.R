@@ -28,16 +28,45 @@
 # DESCRIPTION     :                                                            #
 ################################################################################
 
-
+library(plyr)
 library(dplyr)
 library(tidyverse)
 library(ggplot2)
 library(tidyr)
 library(data.table)
 
-#set working directory to import csv data
-setwd("S:/8. Oyster Sanctuaries/3. Monitoring and Data/1. Oyster Sanctuary (OS)/5. Analysis/2025 R")
-df <- read.csv("2025_hist_data.csv")
+#set evaluation and year for P612 workflow 
+#!THESE ARE THE ONLY THINGS TO CHANGE EACH YEAR!
+#evaluation <- 'OS'
+evaluation <- 'DORA'
+survey_year <- 2025
+
+
+#if/else controls directories for data upload and outputs based on evaluation & year specified
+if (evaluation == 'OS') {
+  
+  #OS - Oyster Sanctuary - set up
+  #set folder directories with the year for upload
+  
+  data_dir <- paste0("S:/8. Oyster Sanctuaries/3. Monitoring and Data/1. Oyster Sanctuary (OS)/5. Analysis/", survey_year, " R")
+  df_name <- paste0(survey_year," R Data.csv")
+  
+} else {
+  
+  #DORA - set up
+  #set folder directories with the year for upload
+  data_dir <- paste0("S:/14. DORAs/SCUBA monitoring/", survey_year, "/Analysis")
+  df_name <- paste0("DORA ", survey_year, " R Data.csv")
+  
+}
+
+
+#upload data
+setwd(data_dir)
+df <- read.csv(df_name)
+
+#clean spaces/symbols from column headers
+names(df) <- make.names(names(df))
 
 #format dataframe
 OS_import<- dplyr::rename(df, Collection_Method=Collection.Method, Sample_Method=Sample.Method, Material_Age=Material.Age,Oyster_Cover=Oyster.Cover,Mussel_Cover=Mussel.Cover,Boring_Sponge=Boring.Sponge, Sample_Depth=Sample.Depth)
@@ -46,7 +75,7 @@ OS_import$Material <- factor(OS_import$Material)
 OS_import$LVL<-as.numeric(OS_import$LVL)
 
 # OS_import<-OS_import %>% #cut down dataset to only include what is needed
-#   dplyr::select(Year,OS.ID,OS.Name,Material,Collection_Method,Sample_Method,Site_ID,Latitude,Longitude,SID,Deployment.Year, Deployment.Month,Material_Age,LVL,Oyster_Cover,Mussel_Cover,Sedimentation,Boring_Sponge,Sample_Depth,OS.Depth, Relief, S.Do, B.Do, S.Sal, B.Sal, S.Temp, B.Temp)
+#   dplyr::select(Year,OS_ID,OS_Name,Material,Collection_Method,Sample_Method,Site_ID,Latitude,Longitude,SID,Deployment.Year, Deployment.Month,Material_Age,LVL,Oyster_Cover,Mussel_Cover,Sedimentation,Boring_Sponge,Sample_Depth,OS.Depth, Relief, S.Do, B.Do, S.Sal, B.Sal, S.Temp, B.Temp)
 # 
 # OS_import2 <- OS_import%>%
 #   dplyr::select(-UID, -Quadrate.Size,)
@@ -80,7 +109,7 @@ oysters_spat <- filter(OS_extract, LVL <=25) #inclusive of 25
 # Function to calculate oyster density 
 oyster_density <- function(x) {
   (x)%>%
-    group_by(Year, OS.ID, OS.Name, Site_ID,SID, Material)%>%
+    group_by(Year, OS_ID, OS_Name, Site_ID,SID, Material)%>%
     dplyr::summarise(oyst_density =4*n ())
 }  
 
@@ -127,7 +156,7 @@ OS_obs_clean <- OS_obs %>%
   )
 
 #remove unecessary rows for a density dataframe
-OS_obs_clean <- OS_obs_clean %>% select(-Quadrat.Size, -Month, -Algae.Cover, -Day, -Oyster, -Size.Class, -Total.Oyster.Count, -Spat.Y.N, -Sub.Legal.Y.N, -Legal.Y.N,-X,-UID, -LVL)
+OS_obs_clean <- OS_obs_clean %>% select(-Quadrat.Size, -Month, -Algae.Cover, -Day, -Oyster, -Size_Class, -Total.Oyster.Count, -Spat.Y.N, -Sub.Legal.Y.N, -Legal.Y.N,-X,-UID, -LVL)
 
 #merge density dataframes together
 all_density<- rbind(OS_obs_clean, extract_density)
@@ -136,11 +165,11 @@ all_density<- rbind(OS_obs_clean, extract_density)
 rm(dens_legal,dens_spat,dens_sublegal,dens_total,oysters_legal,oysters_spat,oysters_sublegal)
 
 #create a csv file with site specific density estimates (each quadrat/dive has an associated series of size class densities)
-write.csv(all_density, "2025_OS_densities.csv")
+write.csv(all_density, "2025_OS_densities")
 
 #calculate mean densities for each material type on each sanctuary & output a csv file
 matOSdens <- all_density%>%
-  group_by(OS.ID, Material)%>%
+  group_by(OS_ID, Material)%>%
   summarise(n = n(), 
             avg_total_dens = mean(total_density, na.rm = TRUE),
             sd_total_dens = sd(total_density, na.rm = TRUE),
@@ -155,7 +184,7 @@ write.csv(matOSdens, "matOS_avgs2025.csv")
 
 #calculate mean densities for each sanctuary & output a csv file
 OSdens <- all_density%>%
-  group_by(OS.ID)%>%
+  group_by(OS_ID)%>%
   summarise(n = n(), 
             avg_total_dens = mean(total_density, na.rm = TRUE),
             sd_total_dens = sd(total_density, na.rm = TRUE),
