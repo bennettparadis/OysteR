@@ -35,9 +35,39 @@ library(stringr)
 # library(installr)
 # updateR()
 
-#set working directory to import csv data
-setwd("S:/8. Oyster Sanctuaries/3. Monitoring and Data/1. Oyster Sanctuary (OS)/5. Analysis/2025 R")
-df <- read.csv("2025 Data.csv")
+
+#set evaluation and year for P612 workflow 
+#!THESE ARE THE ONLY THINGS TO CHANGE EACH YEAR!
+#evaluation <- 'OS'
+evaluation <- 'DORA'
+survey_year <- 2025
+
+
+#if/else controls directories for data upload and outputs based on evaluation & year specified
+if (evaluation == 'OS') {
+  
+  #OS - Oyster Sanctuary - set up
+  #set folder directories with the year for upload
+  data_dir <- paste0("S:/8. Oyster Sanctuaries/3. Monitoring and Data/1. Oyster Sanctuary (OS)/4. Data/", survey_year, " Data")
+  df_name <- paste0(survey_year," Data.csv")
+  
+} else {
+  
+  #DORA - set up
+  #set folder directories with the year for upload
+  data_dir <- paste0("S:/14. DORAs/SCUBA monitoring/", survey_year, "/Data")
+  df_name <- paste0("DORA_monitoring_", survey_year, ".csv")
+  
+}
+
+
+#upload data
+setwd(data_dir)
+df <- read.csv(df_name)
+
+#clean spaces/symbols from column headers
+names(df) <- make.names(names(df))
+
 
 #focus on extraction sites, more data entry errors 
 df <- df%>%
@@ -45,9 +75,6 @@ df <- df%>%
 
 #clean spaces/symbols from column headers
 names(df) <- make.names(names(df))
-
-#set working directory for output files
-#setwd("S:/7. Cultch Planting/6. Monitoring and Data/p610 monitoring/5. Analysis/2024")
 
 
 #get list of unique sites, validate number of sites matches sampling effort
