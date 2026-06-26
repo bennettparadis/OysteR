@@ -43,26 +43,59 @@ library(carData)
 #### Length Frequency Plots - use this script after resampling has been done ####
 # resampling is conducted on excavated sites where subsampling was utilized #
 # the resampling script will output the 2025 R Data csv file #
-setwd("S:/8. Oyster Sanctuaries/3. Monitoring and Data/1. Oyster Sanctuary (OS)/5. Analysis/2025 R")
-df <- read.csv("2025_hist_data.csv")
+
+#set evaluation and year for P612 workflow 
+#!THESE ARE THE ONLY THINGS TO CHANGE EACH YEAR!
+#evaluation <- 'OS'
+evaluation <- 'DORA'
+survey_year <- 2025
+
+
+#if/else controls directories for data upload and outputs based on evaluation & year specified
+if (evaluation == 'OS') {
+  
+  #OS - Oyster Sanctuary - set up
+  #set folder directories with the year for upload
+  
+  data_dir <- paste0("S:/8. Oyster Sanctuaries/3. Monitoring and Data/1. Oyster Sanctuary (OS)/5. Analysis/", survey_year, " R")
+  df_name <- paste0(survey_year," R Data.csv")
+  
+} else {
+  
+  #DORA - set up
+  #set folder directories with the year for upload
+  data_dir <- paste0("S:/14. DORAs/SCUBA monitoring/", survey_year, "/Analysis")
+  df_name <- paste0("DORA ", survey_year, " R Data.csv")
+  
+}
+
+
+#upload data
+setwd(data_dir)
+df <- read.csv(df_name)
+
+#clean spaces/symbols from column headers
+names(df) <- make.names(names(df))
+
+
 
 datum<-subset(df, df$Collection.Method == "Extraction")
 check <- subset(df, df$Collection.Method == "Observation") #check to make sure correct sample sizes
 
-datum$OS.ID<-as.numeric(datum$OS.ID)
+datum$OS_ID<-as.numeric(datum$OS_ID)
 
 datum <- datum %>%#cut down dataset to only include what is needed, renaming condensed dataset as "data"
-  select(Year, Month, Day, OS.ID,OS.Name,Site_ID,LVL) %>%
-  arrange(OS.ID)
+  select(Year, Month, Day, OS_ID,OS_Name,Site_ID,LVL) %>%
+  arrange(OS_ID)
 
 Num_quads<-datum %>% #Calculate number of quadrats taken for each site (will be used later to standardize sampling) 
-  group_by(OS.ID)%>%
+  group_by(OS_ID)%>%
   dplyr::mutate(count=n_distinct(Site_ID))%>%
   rename(Quad_Count = "count")%>%
-  distinct(OS.ID,Quad_Count)
+  distinct(OS_ID,Quad_Count)
 
-Num_quads$vector <- rownames(Num_quads) # Loops don't like skipped values for iterations (sanctuaries no longer in OSP, such as OS.ID 4, 6, or for sanctuaries we don't end up sampling), so create a list of 1:n to then add as a column for loop to reference & follow along
-datum<-left_join(datum,Num_quads,by="OS.ID") #R requires a long data format, so join "Num_quad" with "data"; adds vector column to "data" dataframe
+Num_quads$vector <- rownames(Num_quads) # Loops don't like skipped values for iterations (sanctuaries no longer in OSP, such as OS_ID 4, 6, or for sanctuaries we don't end up sampling), so create a list of 1:n to then add as a column for loop to reference & follow along
+datum<-left_join(datum,Num_quads,by="OS_ID") #R requires a long data format, so join "Num_quad" with "data"; adds vector column to "data" dataframe
 datum<-na.omit(datum) #removes any instances of "na"
 
 br = seq(0,165,by=5) #creates a sequence; start, end, step
@@ -83,18 +116,7 @@ for (i in loop.vector) { # Loop over loop.vector to get multi-panel plots
   freq <- hist(Sanctuary$LVL, breaks=br, include.lowest=TRUE, plot=FALSE)
   Count<-data.frame(range = ranges, count = (freq$counts/unique(Sanctuary$Quad_Count))*4)
   
-  
-  # Set base y-axis limit and adjust for outliers
-  y_limit_base <- 250 # Typical maximum for most sites
-  max_bin <- max(Count$count, na.rm = TRUE)
-  
-  if (max_bin > y_limit_base) {
-    y_limit <- ceiling(max_bin / 250)  * 250 # Expand axis for extreme sites
-    clipped <- TRUE
-  } else {
-    y_limit <- y_limit_base
-    clipped <- FALSE
-  }
+  y_limit <- if (unique(Sanctuary$OS_Name[1]) == 'Brant Island') 1400 else 300
   
   plist[[i]]<-ggplot(Count, aes(x=range, y=count)) +
     geom_bar(stat="identity",color="black", fill="grey") +
@@ -104,7 +126,7 @@ for (i in loop.vector) { # Loop over loop.vector to get multi-panel plots
     theme_classic()+
     geom_text(data = Num_quads %>%
                 filter(vector == i),
-              mapping = aes(x=130, y=150, 
+              mapping = aes(x=130, y=190, 
                             label=paste0(Sanctuary$Month[1],"-", Sanctuary$Day[1],"-",Sanctuary$Year[1], "\n", "n =",Quad_Count)
                             ), 
               hjust=0) +
@@ -112,10 +134,10 @@ for (i in loop.vector) { # Loop over loop.vector to get multi-panel plots
     #axis.title.x=element_blank(),
     #axis.title.y=element_blank())+
     labs(x="LVH (mm)", y = expression("Frequency (Oysters/m"^2*")"))+  #toggle this line on/off for individual/grid plots
-    ggtitle(Sanctuary$OS.Name)+
+    ggtitle(Sanctuary$OS_Name)+
     theme(plot.title = element_text(size=20,hjust = 0.5))
   plist[i]
-  ggsave(file = paste0("2025_histogram", Sanctuary$OS.Name[1], ".tiff"),width = 5, height = 4, dpi = 300, units = "in",) #toggle this line off for grid plot
+  ggsave(file = paste0("2025_histogram", Sanctuary$OS_Name[1], ".tiff"),width = 5, height = 4, dpi = 300, units = "in",) #toggle this line off for grid plot
 }
 
 
@@ -140,17 +162,7 @@ for (i in loop.vector) { # Loop over loop.vector to get multi-panel plots
       Quad_Count = unique(Quad_Count)
     )
   
-  # Set base y-axis limit and adjust for outliers
-  y_limit_base <- 250 # Typical maximum for most sites
-  max_bin <- max(Count$count, na.rm = TRUE)
-  
-  if (max_bin > y_limit_base) {
-    y_limit <- ceiling(max_bin / 250)  * 250 # Expand axis for extreme sites
-    clipped <- TRUE
-  } else {
-    y_limit <- y_limit_base
-    clipped <- FALSE
-  }
+  y_limit <- if (unique(Sanctuary$OS_Name[1]) == 'Brant Island') 1400 else 300
   
   plist[[i]]<-ggplot(Count, aes(x=range, y=count)) +
     geom_bar(stat="identity",color="black", fill="grey") +
@@ -159,7 +171,7 @@ for (i in loop.vector) { # Loop over loop.vector to get multi-panel plots
     ylim(0,y_limit)+ #can toggle off the y_limit line and replace y_limit here with values - 400, 600, etc
     theme_classic()+
     geom_text(data = label_info,
-              mapping = aes(x=130, y=150, 
+              mapping = aes(x=130, y=250, 
                             label=paste0(Month,"-", Day,"-",Year, "\n", "n =",Quad_Count)
               ), 
               hjust=0) +
@@ -167,10 +179,10 @@ for (i in loop.vector) { # Loop over loop.vector to get multi-panel plots
     #axis.title.x=element_blank(),
     #axis.title.y=element_blank())+
     labs(x="LVH (mm)", y = expression("Frequency (Oysters/m"^2*")"))+  #toggle this line on/off for individual/grid plots
-    ggtitle(Sanctuary$OS.Name)+
+    ggtitle(Sanctuary$OS_Name)+
     theme(plot.title = element_text(size=20,hjust = 0.5))
   plist[i]
-  ggsave(file = paste0("2025_histogram", Sanctuary$OS.Name[1], ".tiff"),width = 5, height = 4, dpi = 300, units = "in",) #toggle this line off for grid plot
+  ggsave(file = paste0("2025_histogram", Sanctuary$OS_Name[1], ".tiff"),width = 5, height = 4, dpi = 300, units = "in",) #toggle this line off for grid plot
 }
 
 for (i in seq(1,length(plist), 15)) { #loop for plotting all sanctuaries on grid (3 columns) with labels, Change "(plist), x)" to total # sanctuaries sampled with excavated material (Long Shoal does not count!!)
