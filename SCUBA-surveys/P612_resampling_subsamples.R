@@ -36,16 +36,33 @@ library(stringr)
 # library(installr)
 # updateR()
 
-#set working directory to import csv data
-setwd("S:/8. Oyster Sanctuaries/3. Monitoring and Data/1. Oyster Sanctuary (OS)/5. Analysis/2025 R")
-df <- read.csv("2025 Data.csv")
+#if/else controls directories for data upload and outputs based on evaluation & year specified
+if (evaluation == 'OS') {
+  
+  #OS - Oyster Sanctuary - set up
+  #set folder directories with the year for upload
+  data_dir <- paste0("S:/8. Oyster Sanctuaries/3. Monitoring and Data/1. Oyster Sanctuary (OS)/4. Data/", survey_year, " Data")
+  df_name <- paste0(survey_year," Data.csv")
+  analysis_dir <- paste0("S:/8. Oyster Sanctuaries/3. Monitoring and Data/1. Oyster Sanctuary (OS)/5. Analysis/", survey_year, " R")
+  
+} else {
+  
+  #DORA - set up
+  #set folder directories with the year for upload
+  data_dir <- paste0("S:/14. DORAs/SCUBA monitoring/", survey_year, "/Data")
+  df_name <- paste0("DORA_monitoring_", survey_year, ".csv")
+  analysis_dir <- paste0("S:/14. DORAs/SCUBA monitoring/", survey_year, "/Analysis")
+}
+
+#upload data
+setwd(data_dir)
+df <- read.csv(df_name)
 
 #clean spaces/symbols from column headers
 names(df) <- make.names(names(df))
 
-#set working directory for output files
-#setwd("S:/7. Cultch Planting/6. Monitoring and Data/p610 monitoring/5. Analysis/2024")
-
+#set output destination to appropriate Analysis directory
+setwd(analysis_dir)
 
 #get list of unique sites, validate number of sites matches sampling effort
 SID_list <- unique(df$SID)
