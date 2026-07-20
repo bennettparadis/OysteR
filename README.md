@@ -1,5 +1,7 @@
 # OysteR
-This series of R scripts are used for end-to-end workflow of wrangling, analyzing, and visualizing data collected from annual surveys of North Carolina's various statewide shellfish rehabilitation programs (oyster restoration work). These initiatives include surveying of the oyster sanctuaries, cultch reefs, and natural reefs. This repository includes R scripts used for validating collected data, creating visualizations, and analyzing size class densities -- a key metric for understanding population dynamics on oyster reefs. These programs use two methodologies for collecting oyster samples on the various reefs. More information about each program and their respective methodologies can be found below.
+This series of R scripts are used for end-to-end workflow of wrangling, analyzing, and visualizing data collected from annual surveys of North Carolina's various statewide shellfish rehabilitation programs with project scopes covering oyster restoration & habitat enhancement. These initiatives include surveying oysters from a variety of benthic habitats such as protected sanctuaries, cultch reefs, and natural reefs. If you are looking for an in-depth overview, check out the StoryMaps for North Carolina's [Oyster Sanctuary](tinyurl.com/ncos-storymap) and the [Cultch Planting Program](https://storymaps.arcgis.com/stories/d644e7a3c4b64d0ea4ab7930bc55ef02)!
+
+This repository includes R scripts used for validating collected data, creating visualizations, and analyzing size class densities -- a key metric for understanding population dynamics on oyster reefs. These programs use two methodologies for collecting oyster samples on the various reefs. More information about each program and their respective methodologies can be found below.
 
 
 **Repository Structure**
@@ -25,7 +27,6 @@ North Carolina’s Division of Marine Fisheries has been permitting, constructin
 
 Annual monitoring efforts are conducted by SCUBA certified biologists and technicians as teams conduct quantitative surveys on each oyster sanctuary, collecting data on the density and population structure of each site, as well as other species present and relevant abiotic data. These surveys provide insight into the degree of sanctuary persistence and are used to refine site selection and construction methods for future sanctuary sites and habitat enhancement.
 
-For additional information on the oyster sanctuary program, visit the [Oyster Sanctuary StoryMap](tinyurl.com/ncos-storymap)!
 To explore part of the Sanctuary monitoring data set, visit this [Visualization WebApp](https://tinyurl.com/ncos-data)!
 
 ![Cedar Island_2019-2025 hist](https://github.com/user-attachments/assets/a9dea73a-401e-4424-a35b-63de92887ec5)
