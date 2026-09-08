@@ -213,5 +213,5 @@ site_compare <- df %>%
 problem_sites <- site_compare %>%
   filter(expected != generated)
 
-print(site_compare)
+#print(site_compare)
 print(problem_sites)
