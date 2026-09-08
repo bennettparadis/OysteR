@@ -32,9 +32,26 @@ library(tidyr)
 library(data.table)
 library(stringr)
 
+library(conflicted)
+conflict_prefer("filter", "dplyr")
+conflict_prefer("select", "dplyr")
+conflict_prefer("mutate", "dplyr")
+conflict_prefer("summarise", "dplyr")
+conflict_prefer("group_by", "dplyr")
+conflict_prefer("arrange", "dplyr")
+conflict_prefer("first", "dplyr")
+
 # update R & RStudio without IT help!
 # library(installr)
 # updateR()
+
+
+#set evaluation and year for P612 workflow 
+#!THESE ARE THE ONLY THINGS TO CHANGE EACH YEAR!
+evaluation <- 'OS'
+#evaluation <- 'DORA'
+survey_year <- 2025
+
 
 #if/else controls directories for data upload and outputs based on evaluation & year specified
 if (evaluation == 'OS') {
@@ -120,10 +137,11 @@ for (sid in unique(sub_data$SID)) {
 check_subsample <- df %>%
   filter(Sample.Method == "Subsample") %>%
   group_by(SID) %>%
-  summarise(site_total = max(Total.Oyster.Count, na.rm = TRUE)) %>%
-  summarise(total = sum(site_total))
+  summarise(site_count = first(na.omit(Total.Oyster.Count)), .groups = "drop") %>%
+  summarise(total = sum(site_count, na.rm = TRUE))
 
-counted_n   <- check_subsample$total
+counted_n <- check_subsample$total
+
 generated_n <- nrow(resampled_data)
 
 if (counted_n != generated_n) {
@@ -174,7 +192,8 @@ if (true_n != final_n) {
   )
 } else {
   message("Final dataset matches extraction totals for sites with counts")
-  write.csv(final_df, "2025_hist_data.csv")
+  output_name <- paste0(evaluation, "_", survey_year, "hist_data.csv")
+  write.csv(final_df, output_name)
 }
 
 site_compare <- df %>%
@@ -187,5 +206,5 @@ site_compare <- df %>%
 problem_sites <- site_compare %>%
   filter(expected != generated)
 
-print(site_compare)
+#print(site_compare)
 print(problem_sites)
