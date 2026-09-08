@@ -31,6 +31,14 @@ library(tidyr)
 library(data.table)
 library(stringr)
 
+library(conflicted)
+conflict_prefer("filter", "dplyr")
+conflict_prefer("select", "dplyr")
+conflict_prefer("mutate", "dplyr")
+conflict_prefer("summarise", "dplyr")
+conflict_prefer("group_by", "dplyr")
+conflict_prefer("arrange", "dplyr")
+
 # update R & RStudio without IT help!
 # library(installr)
 # updateR()
@@ -40,7 +48,7 @@ library(stringr)
 #!THESE ARE THE ONLY THINGS TO CHANGE EACH YEAR!
 #evaluation <- 'OS'
 evaluation <- 'DORA'
-survey_year <- 2025
+survey_year <- 2026
 
 
 #if/else controls directories for data upload and outputs based on evaluation & year specified
@@ -56,7 +64,7 @@ if (evaluation == 'OS') {
   #DORA - set up
   #set folder directories with the year for upload
   data_dir <- paste0("S:/14. DORAs/SCUBA monitoring/", survey_year, "/Data")
-  df_name <- paste0("DORA_monitoring_", survey_year, ".csv")
+  df_name <- paste0("DORA_monitoring_", survey_year, ".csv") #change after proof checking workflow
   
 }
 
