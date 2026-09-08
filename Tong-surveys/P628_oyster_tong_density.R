@@ -34,10 +34,10 @@ library(stringr)
 # updateR()
 
 #!THESE ARE THE ONLY THINGS TO CHANGE EACH YEAR!
-#evaluation <- 'cultch'
-evaluation <- 'trigger'
-trigger_timing <- 'midseason' #or midseason
-survey_year <- 2025
+evaluation <- 'cultch'
+#evaluation <- 'trigger'
+#trigger_timing <- 'preseason' #or midseason
+survey_year <- 2022
 
 
 
@@ -88,7 +88,7 @@ col_names <- names(df)
 environ_data <- df %>%
   select(SID,
          #Management.Area,
-         Management.Area, Latitude, Longitude,Deployment.Year,Material.Age,B.Do,B.Temp,B.Sal, S.Sal)
+         Management.Area, Latitude, Longitude,Evaluation,Deployment.Year,Material.Age,B.Do,B.Temp,B.Sal, S.Sal)
 
 # removes duplicate rows, only unique SID remains; dataframe should have the same number of rows as dens_total dataframe
 environ_data <- environ_data[!duplicated(environ_data$SID),]
